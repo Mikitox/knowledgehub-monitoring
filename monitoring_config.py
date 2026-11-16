@@ -1,6 +1,3 @@
-
-"""Initial monitoring configuration for the Knowledge Hub."""
-
 import ipaddress
 
 
