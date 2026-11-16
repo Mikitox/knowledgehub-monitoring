@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> eec143a8dc7b74a5f59d0da365e0f5924c861cc7
 # Knowledge Hub Monitoring
 
 ## Project Description
