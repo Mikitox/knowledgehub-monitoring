@@ -16,3 +16,11 @@ venv/
 
 # Temporary files
 *.log
+
+# Generated monitoring data
+measurements.csv
+
+# Task 10 local backups and earlier storage implementation
+monitoring_backup.py
+storage_backup.py
+storage.py

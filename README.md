@@ -50,7 +50,7 @@ Metrics:
 - RAM
 - Disk
 
-## Current Limitations
+## Task 5 — Original Limitations
 
 This is an initial configuration application.
 
@@ -81,3 +81,77 @@ Tests included:
 - Duplicate metrics
 - Multiple valid metrics
 - Correct configuration output
+
+## Task 10 — Infrastructure Monitoring
+
+### Overview
+
+In Task 10, I expanded my Python monitoring application from Task 5.
+
+The application can now collect CPU, memory, and disk usage, save measurements to a CSV file, and retrieve previously stored measurements.
+
+The application runs through PowerShell without asking the user for input during execution.
+
+### Requirements
+
+- Python 3.12 or newer
+- psutil 6.1.1
+
+Install the dependency using:
+
+`python -m pip install psutil==6.1.1`
+
+### Collect measurements
+
+Run the following command:
+
+`python monitoring.py collect --metrics cpu memory disk`
+
+The application measures the selected metrics and saves the results to `measurements.csv`.
+
+Each measurement contains a timestamp, hostname, metric name, value, and unit.
+
+### View monitoring history
+
+Retrieve measurements for a specific date:
+
+`python monitoring.py report --start 2026-11-22 --end 2026-11-22`
+
+Retrieve measurements for a specific time period:
+
+`python monitoring.py report --start 2026-11-22T21:00 --end 2026-11-22T22:00`
+
+The application reads the existing CSV file and displays measurements recorded during the selected period. Times are interpreted as UTC when no timezone is supplied.
+
+### Data storage
+
+Measurements are saved in `measurements.csv`.
+
+The application appends new measurements instead of overwriting previous data.
+
+The CSV file is excluded from GitHub using `.gitignore`.
+
+### Testing
+
+I tested the following functionality:
+
+- Collecting CPU, memory, and disk measurements.
+- Saving measurements to CSV.
+- Running collection multiple times without overwriting existing data.
+- Reading historical measurements.
+- Filtering measurements by date and time.
+- Rejecting unsupported metrics such as `temperature`.
+- Rejecting date ranges where the start is after the end.
+- Displaying a message when no measurements exist for the selected period.
+
+These tests passed.
+
+### Limitations
+
+The application currently monitors only the computer running the script.
+
+It collects measurements once per command execution rather than continuously.
+
+The application uses CSV storage. In Task 11, I will extend it to use a local SQLite database.
+
+The application does not currently send alerts or notifications.
