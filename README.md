@@ -155,3 +155,71 @@ It collects measurements once per command execution rather than continuously.
 The application uses CSV storage. In Task 11, I will extend it to use a local SQLite database.
 
 The application does not currently send alerts or notifications.
+
+## Task 11 — SQLite Monitoring Database
+
+### Overview
+
+In Task 11, I extended my Python monitoring application from Task 10 by replacing CSV storage with a local SQLite database.
+
+The application still collects CPU, memory, and disk measurements using `psutil`. Measurements are now stored in `monitoring.db` instead of `measurements.csv`.
+
+### Database Implementation
+
+I created `database.py` to manage the SQLite database using Python's built-in `sqlite3` module.
+
+The application uses three functions:
+
+- `create_database()` — creates the database table if it does not exist.
+- `save_measurements()` — adds new measurements to the database.
+- `load_measurements()` — retrieves stored measurements.
+
+Each record contains a unique ID, timestamp, hostname, metric name, measurement value, and unit.
+
+### How to Run
+
+Collect measurements:
+
+`python monitoring.py collect --metrics cpu memory disk`
+
+Retrieve historical measurements:
+
+`python monitoring.py report --start 2026-11-22 --end 2026-11-22`
+
+Retrieve measurements for a specific time period:
+
+`python monitoring.py report --start 2026-11-22T22:00 --end 2026-11-22T23:00`
+
+Times without a timezone are interpreted as UTC.
+
+### Testing
+
+I tested the following:
+
+- Creating the SQLite database.
+- Saving CPU, memory, and disk measurements.
+- Reading existing database records.
+- Running collection multiple times without overwriting data.
+- Retrieving measurements by date.
+- Rejecting unsupported metrics.
+- Rejecting invalid date ranges.
+- Handling periods without measurements.
+- Verifying that invalid commands do not change existing records.
+
+All tests passed. The database contained nine records after the tests.
+
+### Data Protection
+
+The `monitoring.db` file is excluded from Git using `.gitignore`.
+
+The original Task 10 CSV file remains available locally, but the Task 11 application now reads and writes SQLite.
+
+### Limitations
+
+The application currently monitors the local computer only.
+
+Measurements are collected once per execution rather than continuously.
+
+Historical reports retrieve records from the SQLite database and filter them in Python. This works for a small project, but a database query would be more efficient for larger datasets.
+
+The application does not currently provide automatic alerts or notifications.

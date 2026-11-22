@@ -24,3 +24,6 @@ measurements.csv
 monitoring_backup.py
 storage_backup.py
 storage.py
+
+# Local SQLite database
+*.db
