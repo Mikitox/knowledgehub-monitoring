@@ -1,5 +1,28 @@
 import ipaddress
 
+SUPPORTED_METRICS = ("cpu", "memory", "disk")
+
+
+def validate_metrics(metrics):
+    """Validate metric names for non-interactive monitoring."""
+    if not metrics:
+        raise ValueError("At least one metric is required.")
+
+    normalized = []
+
+    for metric in metrics:
+        name = metric.strip().lower()
+
+        if name not in SUPPORTED_METRICS:
+            raise ValueError(
+                f"Unsupported metric: {metric}. "
+                f"Choose from: {', '.join(SUPPORTED_METRICS)}"
+            )
+
+        if name not in normalized:
+            normalized.append(name)
+
+    return normalized
 
 def get_hostname():
     """Ask for a non-empty server hostname."""
